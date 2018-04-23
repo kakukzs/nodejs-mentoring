@@ -1,0 +1,23 @@
+{
+  "name": "nodejs-01",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "start": "nodemon -x node register.js",
+    "test": ""
+  },
+  "keywords": [],
+  "author": {
+    "name": "Zsolt Kakuk",
+    "email": "Zsolt_Kakuk@epam.com"
+  },
+  "license": "ISC",
+  "devDependencies": {
+    "babel-core": "^6.26.0",
+    "babel-preset-env": "^1.6.1",
+    "babel-preset-stage-2": "^6.24.1",
+    "babel-register": "^6.26.0",
+    "nodemon": "^1.17.3"
+  }
+}
