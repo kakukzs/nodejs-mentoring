@@ -1,4 +1,4 @@
-import * as config from './config/config';
+import config from './config/config';
 
 import * as models from './models';
 
