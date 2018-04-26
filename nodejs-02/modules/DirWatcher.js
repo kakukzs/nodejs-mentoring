@@ -14,7 +14,15 @@ export default class DirWatcher extends EventEmitter {
 
 	watch(path, delay) {
 		setInterval(() => {
-			this.fs.readdir(path, (err, files) => {
+			this.readDir(path).then(files => {
+				// Checking deleted files
+				const deletedFiles = this.files.filter(file => !files.includes(file));
+				if (deletedFiles.length) {
+					deletedFiles.forEach(file => this.files.splice(this.files.indexOf(file), 1));
+					this.emit('deleted', deletedFiles.map(file => path + '/' + file));
+				}
+
+				// Checking new files or changed existing files
 				files.forEach(file => {
 					const filePath = path + '/' + file;
 					if (!this.files.includes(file)) {
@@ -44,8 +52,22 @@ export default class DirWatcher extends EventEmitter {
 						});
 					}
 				});
-			})
+			}).catch(err => {
+				console.log(`Error happened during reading directory: ${path}, ${err.toString()}`);
+			});;
 		}, delay);
+	}
+
+	readDir(path) {
+		return new Promise((resolve, reject) => {
+			this.fs.readdir(path, (err, files) => {
+				if (err) {
+					reject(err);
+				} else {
+					resolve(files);
+				}
+			});
+		});
 	}
 
 	readFile(filePath) {

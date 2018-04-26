@@ -14,6 +14,11 @@ const dirWatcher = new DirWatcher();
 const importer   = new Importer();
 
 dirWatcher.watch('./data', 1000);
+
 dirWatcher.addListener('changed', filePath => {
 	importer.import(filePath).then(console.log);
+});
+
+dirWatcher.addListener('deleted', filePath => {
+	console.log(`File(s) deleted: ${filePath}`);
 });
